@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator ROI BEMER® | Dominika Żemła-Woś</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','611069288516760');
+fbq('track','PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=611069288516760&ev=PageView&noscript=1"/></noscript>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dark:#1c1a17;--cream:#f7f3ee;--warm:#fdfbf8;
+  --gold:#b8965a;--gold2:#d4b07a;--gold3:#ecdfc9;
+  --mid:#5c5650;--light:#9c9690;--border:rgba(184,150,90,0.2);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--warm);color:var(--dark);overflow-x:hidden}
+
+/* HEADER */
+header{
+  background:var(--dark);padding:20px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.logo{font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;}
+.back-link{font-size:11px;letter-spacing:.25em;color:rgba(255,255,255,.4);text-transform:uppercase;text-decoration:none;transition:color .25s}
+.back-link:hover{color:var(--gold)}
+
+/* HERO */
+.hero{background:var(--dark);padding:60px 40px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(184,150,90,0.08) 0%,transparent 70%);pointer-events:none}
+.tag{font-size:10px;letter-spacing:.45em;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,58px);font-weight:300;color:#fff;line-height:1.15;margin-bottom:16px}
+.hero h1 em{font-style:italic;color:var(--gold2)}
+.hero p{font-size:15px;font-weight:300;color:rgba(255,255,255,.5);max-width:520px;margin:0 auto;line-height:1.7}
+
+/* CALCULATOR */
+.calc-wrap{max-width:900px;margin:0 auto;padding:60px 32px}
+
+.calc-card{background:#fff;border:1px solid var(--border);padding:48px;margin-bottom:3px}
+.calc-card:first-child{border-bottom:none}
+
+.section-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--dark);margin-bottom:28px}
+.section-title span{color:var(--gold)}
+
+/* SLIDER */
+.slider-wrap{margin-bottom:36px}
+.slider-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.slider-label span{font-size:13px;color:var(--mid)}
+.slider-value{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--gold)}
+.slider-value small{font-size:16px;color:var(--light)}
+
+input[type=range]{
+  width:100%;-webkit-appearance:none;height:3px;
+  background:linear-gradient(to right,var(--gold) 0%,var(--gold) var(--val,30%),rgba(184,150,90,0.2) var(--val,30%),rgba(184,150,90,0.2) 100%);
+  outline:none;border-radius:0;cursor:pointer;margin:8px 0;
+}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--gold);border-radius:50%;cursor:pointer;box-shadow:0 2px 8px rgba(184,150,90,0.4)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;background:var(--gold);border:none;border-radius:50%;cursor:pointer}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:8px}
+@media(max-width:600px){.services-grid{grid-template-columns:1fr 1fr}}
+
+.service-item{
+  position:relative;cursor:pointer;
+}
+.service-item input[type=checkbox]{position:absolute;opacity:0;pointer-events:none}
+.service-label{
+  display:flex;flex-direction:column;padding:18px 16px;
+  background:var(--cream);border:2px solid transparent;
+  transition:all .25s;cursor:pointer;
+}
+.service-item input:checked + .service-label{
+  border-color:var(--gold);background:#fff;
+}
+.service-name{font-size:13px;font-weight:500;color:var(--dark);margin-bottom:4px}
+.service-price{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);font-weight:300}
+.service-price small{font-size:12px;color:var(--light)}
+
+.price-note{font-size:11px;color:var(--light);margin-top:6px;font-style:italic}
+
+/* RESULTS */
+.results-card{background:var(--dark);padding:48px;position:relative;overflow:hidden}
+.results-card::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;background:radial-gradient(circle,rgba(184,150,90,0.07) 0%,transparent 70%);pointer-events:none}
+
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:40px}
+@media(max-width:600px){.results-grid{grid-template-columns:1fr}}
+
+.result-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);padding:28px 24px;text-align:center}
+.result-label{font-size:10px;letter-spacing:.3em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:12px}
+.result-value{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--gold2);line-height:1}
+.result-unit{font-size:20px}
+.result-sub{font-size:11px;color:rgba(255,255,255,.25);margin-top:6px}
+
+.delay-note{
+  background:rgba(184,150,90,0.08);border-left:2px solid var(--gold);
+  padding:16px 20px;margin-bottom:36px;
+}
+.delay-note p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6}
+.delay-note strong{color:var(--gold2)}
+
+/* FORM */
+.form-section{background:var(--cream);padding:48px;border-top:1px solid var(--border)}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--dark);margin-bottom:8px}
+.form-sub{font-size:14px;font-weight:300;color:var(--mid);margin-bottom:32px;line-height:1.65}
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
+
+.form-field{display:flex;flex-direction:column;gap:6px}
+.form-field label{font-size:10px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+.form-field input{
+  padding:14px 16px;background:#fff;
+  border:1px solid rgba(184,150,90,0.25);
+  color:var(--dark);font-family:'Jost',sans-serif;
+  font-size:14px;font-weight:300;outline:none;
+  transition:border-color .25s;border-radius:0;
+}
+.form-field input:focus{border-color:var(--gold)}
+.form-field input::placeholder{color:var(--light)}
+.form-field.full{grid-column:1/-1}
+
+.submit-btn{
+  width:100%;padding:18px;margin-top:16px;
+  background:var(--gold);color:var(--dark);
+  font-family:'Jost',sans-serif;font-size:12px;
+  font-weight:600;letter-spacing:.3em;text-transform:uppercase;
+  border:none;cursor:pointer;transition:all .3s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.submit-btn:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 36px rgba(184,150,90,.3)}
+
+.form-note{font-size:11px;color:var(--light);margin-top:12px;text-align:center;line-height:1.6}
+
+/* SUCCESS */
+.success-msg{display:none;text-align:center;padding:32px}
+.success-msg.show{display:block}
+.success-icon{font-size:48px;margin-bottom:16px}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--dark);margin-bottom:8px}
+.success-sub{font-size:14px;color:var(--mid);line-height:1.65}
+
+/* FOOTER */
+footer{background:var(--dark);padding:32px;text-align:center}
+footer p{font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.2);text-transform:uppercase}
+footer span{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">BEMER® · Beauty</div>
+  <a href="https://mikrokrazenie-beauty.github.io/bemer/" class="back-link">← Wróć do strony</a>
+</header>
+
+<div class="hero">
+  <div class="tag">Kalkulator zwrotu z inwestycji</div>
+  <h1>Ile zarobi Twój gabinet<br><em>na BEMER®?</em></h1>
+  <p>Sprawdź kiedy urządzenie się zwróci i jaki dodatkowy przychód możesz wygenerować każdego miesiąca.</p>
+</div>
+
+<div class="calc-wrap">
+
+  <!-- KROK 1: ZABIEGI -->
+  <div class="calc-card">
+    <div class="section-title">Ile zabiegów wykonujesz <span>dziennie</span>?</div>
+
+    <div class="slider-wrap">
+      <div class="slider-label">
+        <span>1 zabieg</span>
+        <div class="slider-value" id="sessionsVal">5 <small>zabiegów / dzień</small></div>
+        <span>20 zabiegów</span>
+      </div>
+      <input type="range" id="sessionsSlider" min="1" max="20" value="5" oninput="updateCalc()">
+    </div>
+
+    <div class="assumption-note" style="background:var(--cream);border-left:3px solid var(--gold);padding:16px 20px;margin-bottom:8px"><p style="font-size:13px;color:var(--mid);line-height:1.65">Przyjmujemy że <strong style="color:var(--dark)">70% Twoich klientek</strong> zdecyduje się na dodatkową sesję BEMER® w cenie <strong style="color:var(--dark)">80 zł</strong> — doliczaną do każdego zabiegu.</p></div>
+    <div class="services-grid" style="display:none">
+      <div class="service-item">
+        <input type="checkbox" id="s1" value="80" onchange="updateCalc()" checked>
+        <label class="service-label" for="s1">
+          <span class="service-name">Manicure / Pedicure</span>
+          <span class="service-price">+80 <small>zł / sesja</small></span>
+        </label>
+      </div>
+      <div class="service-item">
+        <input type="checkbox" id="s2" value="100" onchange="updateCalc()">
+        <label class="service-label" for="s2">
+          <span class="service-name">Kosmetologia</span>
+          <span class="service-price">+100 <small>zł / sesja</small></span>
+        </label>
+      </div>
+      <div class="service-item">
+        <input type="checkbox" id="s3" value="120" onchange="updateCalc()">
+        <label class="service-label" for="s3">
+          <span class="service-name">Medycyna estetyczna</span>
+          <span class="service-price">+120 <small>zł / sesja</small></span>
+        </label>
+      </div>
+      <div class="service-item">
+        <input type="checkbox" id="s4" value="90" onchange="updateCalc()">
+        <label class="service-label" for="s4">
+          <span class="service-name">Masaż / SPA</span>
+          <span class="service-price">+90 <small>zł / sesja</small></span>
+        </label>
+      </div>
+      <div class="service-item">
+        <input type="checkbox" id="s5" value="110" onchange="updateCalc()">
+        <label class="service-label" for="s5">
+          <span class="service-name">Laseroterapia</span>
+          <span class="service-price">+110 <small>zł / sesja</small></span>
+        </label>
+      </div>
+      <div class="service-item">
+        <input type="checkbox" id="s6" value="80" onchange="updateCalc()">
+        <label class="service-label" for="s6">
+          <span class="service-name">Sesja samodzielna</span>
+          <span class="service-price">+80 <small>zł / sesja</small></span>
+        </label>
+      </div>
+    </div>
+    <p class="price-note">* Szacunkowa cena dodatkowej sesji BEMER® doliczana do zabiegu. Możesz ją dowolnie ustalić.</p>
+  </div>
+
+  <!-- WYNIKI -->
+  <div class="results-card">
+    <div class="results-grid">
+      <div class="result-item">
+        <div class="result-label">Dodatkowy przychód</div>
+        <div class="result-value" id="monthly">0 <span class="result-unit">zł</span></div>
+        <div class="result-sub">miesięcznie (brutto)</div>
+      </div>
+      <div class="result-item">
+        <div class="result-label">Rocznie</div>
+        <div class="result-value" id="yearly">0 <span class="result-unit">zł</span></div>
+        <div class="result-sub">dodatkowego przychodu</div>
+      </div>
+      <div class="result-item">
+        <div class="result-label">Zwrot inwestycji</div>
+        <div class="result-value" id="roi">— <span class="result-unit"></span></div>
+        <div class="result-sub">przy cenie ~23 000 zł</div>
+      </div>
+    </div>
+
+    <div class="delay-note" id="delayNote" style="display:none">
+      <p>⏳ <strong>Odkładasz zakup o 3 miesiące?</strong><br>
+      Tracisz <strong id="delayLoss">0 zł</strong> potencjalnego przychodu.</p>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-section" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);padding:36px;margin-top:0">
+      <div id="formWrap">
+        <div class="form-title" style="color:#fff">📄 Wyślij mi to wyliczenie</div>
+        
+
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Imię i nazwisko</label>
+            <input type="text" id="fName" placeholder="Anna Kowalska" autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label>Numer telefonu</label>
+            <input type="tel" id="fPhone" placeholder="+48 600 000 000" autocomplete="tel">
+          </div>
+          <div class="form-field full">
+            <label>Adres e-mail</label>
+            <input type="email" id="fEmail" placeholder="anna@gabinet.pl" autocomplete="email">
+          </div>
+        </div>
+        <div id="formErr" style="font-size:12px;color:#e07070;min-height:16px;margin-bottom:8px;display:none">Uzupełnij wszystkie pola.</div>
+        <button class="submit-btn" onclick="submitForm()">
+          Wyślij wyliczenie na maila
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <p class="form-note" style="color:rgba(255,255,255,.2)">Bez spamu. Możesz zrezygnować w każdej chwili.</p>
+      </div>
+
+      <div class="success-msg" id="successMsg">
+        <div class="success-icon">✅</div>
+        <div class="success-title" style="color:#fff">Wysłano!</div>
+        <p class="success-sub" style="color:rgba(255,255,255,.5)">Wyliczenie zostało wysłane. Dominika odezwie się do Ciebie wkrótce.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 <span>BEMER®</span> · Dominika Żemła-Woś · Terapia mikrokrążenia</p>
+</footer>
+
+<script>
+const DEVICE_PRICE = 23000;
+const DAYS_PER_WEEK = 5;
+const WEEKS_PER_MONTH = 4.33;
+const BEMER_CONVERSION = 0.70; // 70% klientek decyduje się na BEMER
+const BEMER_PRICE = 80; // cena sesji BEMER
+
+function updateCalc() {
+  const zabiegi = parseInt(document.getElementById('sessionsSlider').value);
+  document.getElementById('sessionsVal').innerHTML = zabiegi + ' <small>zabiegów / dzień</small>';
+
+  // Update slider gradient
+  const slider = document.getElementById('sessionsSlider');
+  const pct = ((zabiegi - 1) / 19 * 100).toFixed(1);
+  slider.style.setProperty('--val', pct + '%');
+  slider.style.background = `linear-gradient(to right, var(--gold) 0%, var(--gold) ${pct}%, rgba(184,150,90,0.2) ${pct}%, rgba(184,150,90,0.2) 100%)`;
+
+  // 70% klientek × cena 80 zł × zabiegi/dzień × 5 dni × 4.33 tygodni
+  const bemerSessions = zabiegi * BEMER_CONVERSION;
+  const monthly = Math.round(bemerSessions * DAYS_PER_WEEK * WEEKS_PER_MONTH * BEMER_PRICE);
+  const yearly = monthly * 12;
+  const roiMonths = monthly > 0 ? Math.ceil(DEVICE_PRICE / monthly) : null;
+
+  document.getElementById('monthly').innerHTML = monthly.toLocaleString('pl-PL') + ' <span class="result-unit">zł</span>';
+  document.getElementById('yearly').innerHTML = yearly.toLocaleString('pl-PL') + ' <span class="result-unit">zł</span>';
+
+  if (roiMonths) {
+    document.getElementById('roi').innerHTML = roiMonths + ' <span class="result-unit">msc</span>';
+  } else {
+    document.getElementById('roi').innerHTML = '— <span class="result-unit"></span>';
+  }
+
+  // Delay note
+  const delayLoss = monthly * 3;
+  if (monthly > 0) {
+    document.getElementById('delayNote').style.display = 'block';
+    document.getElementById('delayLoss').textContent = delayLoss.toLocaleString('pl-PL') + ' zł';
+  } else {
+    document.getElementById('delayNote').style.display = 'none';
+  }
+}
+
+function submitForm() {
+  const name  = document.getElementById('fName').value.trim();
+  const email = document.getElementById('fEmail').value.trim();
+  const phone = document.getElementById('fPhone').value.trim();
+  const err   = document.getElementById('formErr');
+
+  if (!name || !email || !phone || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    err.style.display = 'block';
+    return;
+  }
+  err.style.display = 'none';
+
+  // Meta Pixel Lead event
+  fbq('track', 'Lead');
+
+  // Google Forms
+  const sessions = document.getElementById('sessionsSlider').value;
+  const monthly = document.getElementById('monthly').textContent.replace(/[^\d]/g,'');
+
+  const gfData = new FormData();
+  gfData.append('entry.1704838064', name);
+  gfData.append('entry.1639942427', email);
+  gfData.append('entry.1612980158', phone);
+
+  fetch('https://docs.google.com/forms/d/e/1FAIpQLSes0aW9R4AX_xpxrMHY4EcxFyxZdIZLiv2Q7WfSclx8n77Yig/formResponse', {
+    method: 'POST',
+    mode: 'no-cors',
+    body: gfData
+  });
+
+  // Show success
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('successMsg').classList.add('show');
+}
+
+// Init
+updateCalc();
+</script>
+</body>
+</html>  <!-- WYNIKI -->
+  <div class="results-card" id="resultsSection">
+    <div id="resultsUnlocked">
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="result-label">Dodatkowy przychód</div>
+          <div class="result-value" id="monthly">0 <span class="result-unit">zł</span></div>
+          <div class="result-sub">miesięcznie (brutto)</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Rocznie</div>
+          <div class="result-value" id="yearly">0 <span class="result-unit">zł</span></div>
+          <div class="result-sub">dodatkowego przychodu</div>
+        </div>
+        <div class="result-item">
+          <div class="result-label">Zwrot inwestycji</div>
+          <div class="result-value" id="roi">— <span class="result-unit"></span></div>
+          <div class="result-sub">przy cenie ~23 000 zł</div>
+        </div>
+      </div>
+      <div class="delay-note" id="delayNote" style="display:none;margin-top:24px">
+        <p>⏳ <strong>Odkładasz zakup o 3 miesiące?</strong><br>
+        Tracisz <strong id="delayLoss">0 zł</strong> potencjalnego przychodu.</p>
+      </div>
+    </div>
+
+    <!-- FORMULARZ NA DOLE -->
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);padding:36px;margin-top:3px">
+      <div id="formWrap">
+        <div class="form-title" style="color:#fff">📄 Wyślij mi to wyliczenie na maila</div>
+        <p style="font-size:13px;color:rgba(255,255,255,.4);margin-bottom:24px;line-height:1.65">Zostaw dane — Dominika odezwie się do Ciebie w ciągu godziny.</p>
+        <div class="form-grid">
+          <div class="form-field">
+            <label>Imię i nazwisko</label>
+            <input type="text" id="fName" placeholder="Anna Kowalska" autocomplete="name">
+          </div>
+          <div class="form-field">
+            <label>Numer telefonu</label>
+            <input type="tel" id="fPhone" placeholder="+48 600 000 000" autocomplete="tel">
+          </div>
+          <div class="form-field full">
+            <label>Adres e-mail</label>
+            <input type="email" id="fEmail" placeholder="anna@gabinet.pl" autocomplete="email">
+          </div>
+        </div>
+        <div id="formErr" style="font-size:12px;color:#e07070;min-height:16px;margin-bottom:8px;display:none">Uzupełnij wszystkie pola.</div>
+        <button class="submit-btn" onclick="submitForm()">
+          Wyślij wyliczenie na maila
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <p class="form-note" style="color:rgba(255,255,255,.2)">Bez spamu. Możesz zrezygnować w każdej chwili.</p>
+      </div>
+      <div class="success-msg" id="successMsg">
+        <div class="success-icon">✅</div>
+        <div class="success-title" style="color:#fff">Wysłano!</div>
+        <p class="success-sub" style="color:rgba(255,255,255,.5)">Dominika odezwie się do Ciebie wkrótce.</p>
+      </div>
+    </div>
+  </div>
+
+// Init
+updateCalc();
+</script>
+</body>
+</html>
